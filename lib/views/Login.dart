@@ -145,6 +145,7 @@ class _LoginState extends State<Login> {
                             await loginRequest(_code, _password);
                         if (accessToken.tokenType == "Bearer") {
                           // tout est Okay :)
+                          print("TOKEN : " + accessToken.accessToken);
                           _sharedPref
                               .addUserAccessToken(accessToken.accessToken);
                           _sharedPref

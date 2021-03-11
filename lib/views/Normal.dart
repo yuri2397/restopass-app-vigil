@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vigil/constants.dart';
+import 'package:vigil/views/Scan.dart';
 
 class Normal extends StatefulWidget {
   final int price1, price2, price3;
@@ -17,20 +17,13 @@ class _NormalState extends State<Normal> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu_open_rounded),
-              onPressed: () {},
-            );
-          },
-        ),
+        leading: Icon(Icons.local_restaurant_rounded),
         iconTheme: IconThemeData(
-          color: kPrimaryColor,
+          color: Colors.black,
         ),
         title: Text("RestoPass",
             style: TextStyle(
-                color: kPrimaryColor,
+                color: Colors.black,
                 fontSize: 25,
                 fontFamily: "Poppins Light",
                 fontWeight: FontWeight.bold)),
@@ -42,52 +35,41 @@ class _NormalState extends State<Normal> {
   Widget _bodyContainer(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
+      padding: EdgeInsets.only(top: 15),
+      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                width: size.width * .4,
+                width: size.width * .45,
+                height: 200,
                 margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(10),
-                child: _cardItem(
-                    context,
-                    "Petit Déjeuner",
-                    widget.price1.toString(),
-                    Icon(
-                      Icons.fastfood,
-                      color: kPrimaryColor,
-                    )),
+                padding:
+                    EdgeInsets.only(top: 7, left: 10, right: 10, bottom: 7),
+                child: _cardItem(context, "Petit Déjeuner", widget.price1,
+                    "assets/images/breakfast.jpg", 1),
               ),
               Container(
-                width: size.width * .4,
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(10),
-                child: _cardItem(
-                    context,
-                    "Déjeuner",
-                    widget.price2.toString(),
-                    Icon(
-                      Icons.fastfood,
-                      color: kPrimaryColor,
-                    )),
+                width: size.width * .45,
+                height: 200,
+                padding:
+                    EdgeInsets.only(top: 7, left: 10, right: 10, bottom: 7),
+                child: _cardItem(context, "Repas", widget.price2,
+                    "assets/images/dinner.jpg", 2),
               ),
             ],
           ),
           Container(
-            width: size.width * .4,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(10),
+            width: size.width * .45,
+            height: 200,
+            margin: EdgeInsets.only(left: 15.0),
+            padding: EdgeInsets.only(top: 7, left: 10, right: 10, bottom: 7),
             child: _cardItem(
-                context,
-                "Déjeuner",
-                widget.price2.toString(),
-                Icon(
-                  Icons.fastfood,
-                  color: kPrimaryColor,
-                )),
+                context, "Dîner", widget.price3, "assets/images/dinner.png", 3),
           ),
         ],
       ),
@@ -95,41 +77,52 @@ class _NormalState extends State<Normal> {
   }
 
   Widget _cardItem(
-      BuildContext context, String title, String content, Icon image) {
-    return Material(
-      elevation: 2.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 50.0,
-            width: 50.0,
-            child: image,
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            title,
-            style: TextStyle(
+      BuildContext context, String title, int price, String image, int id) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Scan(price: price, id: id, title: title, image: image)));
+      },
+      child: Material(
+        color: Colors.white,
+        elevation: 5.0,
+        borderRadius: BorderRadius.all(
+          Radius.circular(25),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 100.0,
+              width: 100.0,
+              child: Image.asset(image),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              title,
+              style: TextStyle(fontFamily: "Poppin Light", fontSize: 15.0),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              price.toString() + "FCFA",
+              style: TextStyle(
                 fontFamily: "Poppin Light",
                 fontWeight: FontWeight.w700,
-                fontSize: 20.0),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            content,
-            style: TextStyle(
-              fontFamily: "Poppin Light",
-              fontSize: 20.0,
-            ),
-            textAlign: TextAlign.center,
-          )
-        ],
+                fontSize: 20.0,
+              ),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }
